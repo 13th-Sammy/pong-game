@@ -14,3 +14,10 @@ various grahics and input related methods, set game panel background color.
 - Added GamePanel to PongGame window through adding getContentPane.add(new GamePanel()) <br>
 inside PongGame constructor.
 - PongGame object which initialises a window is called from Main.java <br>
+
+Implement Paddles :-
+- Paddles will be inside GamePanel. <br>
+- We create paddle height width and speed and their initial y positions. <br>
+- We override paintComponent method to add two filled rectangles, <br>
+across the screen with paddle width and height. Whatever is inside paintComponent <br>
+gets painted. The painter object g is of Graphics class.
