@@ -61,6 +61,10 @@ public class GamePanel extends JPanel implements ActionListener
         // Bounce off top and bottom walls
         if (ballY <= 0 || ballY >= getHeight() - ballSize)
             ballSpeedY = -ballSpeedY; // reverse vertical direction
+
+        // Bounce off paddles
+        if ((ballX+ballSize >= getWidth()-paddleWidth && ballY >= paddle2Y && ballY <= paddle2Y+paddleHeight) || (ballX <= paddleWidth && ballY >= paddle1Y && ballY <= paddle1Y+paddleHeight))
+            ballSpeedX = -ballSpeedX;
         
         // Reset ball if it goes off left or right edges (temporary - will add scoring later)
         if (ballX <= 0 || ballX >= getWidth() - ballSize) 
