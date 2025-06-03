@@ -34,5 +34,5 @@ runs along with timer and calls moveball method and repaints everything every fr
 overriden method from Actionlistener.
 
 Implement Paddle Movement :- <br>
-- Made Right Panel move automatically by incrementing paddleSpeed to y position and boundary check, <br>
+- Made Right Paddle move automatically by incrementing paddleSpeed to y position and boundary check, <br>
 called by actionPerformed block.  
