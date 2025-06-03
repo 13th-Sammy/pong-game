@@ -10,5 +10,6 @@ public class PongGame extends JFrame
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        getContentPane().add(new GamePanel());
     }
 } 
