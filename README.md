@@ -33,6 +33,6 @@ initial position for x axis out-of-screen. <br>
 runs along with timer and calls moveball method and repaints everything every frame. It is an <br>
 overriden method from Actionlistener.
 
-- Made right panel move automatically.
-
-Implement Keyboard Control for Left Panel :- <br>  
+Implement Paddle Movement :- <br>
+- Made Right Panel move automatically by incrementing panelspeed to y position and boundary check, <br>
+called by actionPerformed block.  
