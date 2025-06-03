@@ -8,7 +8,7 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel implements ActionListener
 {
     // Timer for game loop
-    private Timer timer;
+    Timer timer;
     private final int DELAY = 10; //milliseconds between updates
     
     public GamePanel()
@@ -22,20 +22,20 @@ public class GamePanel extends JPanel implements ActionListener
     }
 
     // Creating Paddles
-    private int paddleWidth = 10;
-    private int paddleHeight = 100;
-    private int paddleSpeed = 5;
+    int paddleWidth = 10;
+    int paddleHeight = 100;
+    int paddleSpeed = 5;
     // initial y position for paddle 1
-    private int paddle1Y = 250;
+    int paddle1Y = 250;
     // initial y position for paddle 2
-    private int paddle2Y = 250;
+    int paddle2Y = 250;
 
     // Creating Ball
-    private int ballSize = 20;
-    private int ballX = 400 - ballSize/2; // center horizontally
-    private int ballY = 300 - ballSize/2; // center vertically
-    private int ballSpeedX = 3; // horizontal speed
-    private int ballSpeedY = 2; // vertical speed
+    int ballSize = 20;
+    int ballX = getWidth()/2 - ballSize/2; // center horizontally
+    int ballY = getHeight()/2 - ballSize/2; // center vertically
+    int ballSpeedX = 3; // horizontal speed
+    int ballSpeedY = 2; // vertical speed
 
     // Paint things on Game Panel
     @Override protected void paintComponent(Graphics g)
@@ -67,7 +67,7 @@ public class GamePanel extends JPanel implements ActionListener
             resetBall();
         
     }
-    
+
     // Reset ball to center
     private void resetBall()
     {
@@ -78,10 +78,19 @@ public class GamePanel extends JPanel implements ActionListener
         ballSpeedY = (Math.random() > 0.5) ? 2 : -2;
     }
 
+    // Move Right Paddle Automatically
+    private void moveRPaddle()
+    {
+        paddle2Y += paddleSpeed;
+        if (paddle2Y <= 0 || paddle2Y >= getHeight() - paddleHeight)
+            paddleSpeed = - paddleSpeed;
+    }
+
     // Game Loop, called by Timer
-    public void actionPerformed(ActionEvent e)
+    @Override public void actionPerformed(ActionEvent e)
     {
         moveBall();
+        moveRPaddle();
         repaint(); // redraw everything
     }
 }
