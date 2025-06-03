@@ -3,7 +3,7 @@ This is My Second Project.
 
 # Basic Info
 Language - Java <br>
-Compile - Inside pong-game folder, run > javac *.java -d classFiles/
+Compile - Inside pong-game folder, run > javac *.java -d classFiles/ <br>
 Run - Inside pong-game folder, run > java -cp classFiles Main
 
 # Code Structure 
