@@ -15,20 +15,24 @@ various grahics and input related methods, set game panel background color.
 inside PongGame constructor.
 - PongGame object which initialises a window is called from Main.java <br>
 
-Implement Paddles :-
+Implement Paddles :- <br>
 - Paddles will be inside GamePanel. <br>
 - We create paddle height width and speed and their initial y positions. <br>
 - We override paintComponent method to add two filled rectangles, <br>
 across the screen with paddle width and height. Whatever is inside paintComponent <br>
 gets painted. The painter object g is of Graphics class.
 
-Implement Ball :-
+Implement Ball :- <br>
 - Ball will be inside GamePanel. <br>
 - Defined ball position size and velocity. Drew ball at position ballX,ballY <br>
 inside paintComponent with g. <br>
 - Created ball movement method to increment position with velocity and wall <br>
 bounce back where if ballY < 0 or > getHeight() then vel = -vel. And ball resets to <br>
-initial position for x axis out-of-screen.
+initial position for x axis out-of-screen. <br>
 - Created Timer object and started it at constructor call with delay = 10ms. Method actionPerformed <br>
 runs along with timer and calls moveball method and repaints everything every frame. It is an <br>
 overriden method from Actionlistener.
+
+- Made right panel move automatically.
+
+Implement Keyboard Control for Left Panel :- <br>  
