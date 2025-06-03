@@ -9,7 +9,7 @@ public class GamePanel extends JPanel implements ActionListener
 {
     // Timer for game loop
     Timer timer;
-    private final int DELAY = 10; //milliseconds between updates
+    int DELAY = 10; //milliseconds between updates
     
     public GamePanel()
     {
