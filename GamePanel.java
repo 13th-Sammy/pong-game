@@ -90,16 +90,32 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
         ballSpeedY = (Math.random() > 0.5) ? 2 : -2;
     }
 
-    // Move Right Paddle Automatically
-    private void moveRPaddle()
+    // Move Right Paddle with AI
+    public void moveRPaddle() 
     {
-        paddle2Y += paddle2Speed;
-        if (paddle2Y <= 0 || paddle2Y >= getHeight() - paddleHeight)
-            paddle2Speed = - paddle2Speed;
+        // Calculate the center of the paddle and ball
+        int paddleCenter = paddle2Y + paddleHeight / 2;
+        int ballCenter = ballY + ballSize / 2;
+        
+        // Only move if ball is coming towards the right paddle
+        if (ballSpeedX > 0) 
+        {
+            // Move paddle towards ball position
+            if (ballCenter < paddleCenter - 10) 
+                paddle2Y -= paddle2Speed;
+            else if (ballCenter > paddleCenter + 10) 
+                paddle2Y += paddle2Speed;
+        }
+        
+        // Keep paddle within screen bounds
+        if (paddle2Y < 0) 
+            paddle2Y = 0;
+        if (paddle2Y > getHeight() - paddleHeight)
+            paddle2Y = getHeight() - paddleHeight;
     }
 
     // Catch W and S press
-   @Override public void keyPressed(KeyEvent e) 
+    @Override public void keyPressed(KeyEvent e) 
     {
         int k = e.getKeyCode();
         if (k == KeyEvent.VK_W)
@@ -120,10 +136,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
     // Move Left Panel according to W and S press
     public void moveLPaddle()
     {
+        // Move Paddle
         if (wpressed == true)
             paddle1Y -= paddle1Speed;
         if (spressed == true)
             paddle1Y += paddle1Speed;
+
+        // Keep Paddle Within Screen Bounds
         if (paddle1Y < 0) 
             paddle1Y = 0;
         if (paddle1Y > getHeight() - paddleHeight)

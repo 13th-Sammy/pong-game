@@ -35,7 +35,7 @@ overriden method from Actionlistener.
 
 Implement Paddle Movement :- <br>
 - Made Right Paddle move automatically by incrementing paddle2Speed to y position and boundary check, <br>
-called by actionPerformed block.  <br>
+called by actionPerformed block. <br>
 - Implemented KeyListener class which has keyPressed(KeyEvent e), keyReleased and keyTyped. <br>
 We catch W and S press inside overriden keyPressed by e.getKeycode() and increment paddle1Speed <br>
 accordingly. Also added getToolkit.sync() inside timer block for smooth animations when idle. 
