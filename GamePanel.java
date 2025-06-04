@@ -127,7 +127,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
             paddle2Y = getHeight() - paddleHeight;
     }
 
-    // Catch W and S press
+    // Catch UP and DOWN press
     @Override public void keyPressed(KeyEvent e) 
     {
         int k = e.getKeyCode();
