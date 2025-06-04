@@ -37,5 +37,11 @@ Implement Paddle Movement :- <br>
 - Made Right Paddle move automatically by incrementing paddle2Speed to y position and boundary check, <br>
 called by actionPerformed block. <br>
 - Implemented KeyListener class which has keyPressed(KeyEvent e), keyReleased and keyTyped. <br>
-We catch W and S press inside overriden keyPressed by e.getKeycode() and increment paddle1Speed <br>
+We catch UP and DOWN press inside overriden keyPressed by e.getKeycode() and increment paddle1Speed <br>
 accordingly. Also added getToolkit.sync() inside timer block for smooth animations when idle. 
+
+Implement GAME OVER - <br>
+- Made gameover = false variable. It becomes true if ballX is out of bounds. Game code updates if <br>
+gameover == false inside timer block. <br>
+- Gameover again becomes false if space is pressed inside keyPressed(KeyEvent e). <br>
+- Made changes to paintComponent() such that it paints different things if gameover = true or false.

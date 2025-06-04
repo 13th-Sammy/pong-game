@@ -12,8 +12,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
     // Timer for game loop
     Timer timer;
     int DELAY = 10; //milliseconds between updates
-    boolean wpressed = false;
-    boolean spressed = false;
+    boolean uPressed = false;
+    boolean dPressed = false;
+    boolean gameover = false;
     
     public GamePanel()
     {
@@ -39,8 +40,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
 
     // Creating Ball
     int ballSize = 20;
-    int ballX = getWidth()/2 - ballSize/2; // center horizontally
-    int ballY = getHeight()/2 - ballSize/2; // center vertically
+    int ballX = 400 - ballSize/2; // center horizontally
+    int ballY = 300 - ballSize/2; // center vertically
     int ballSpeedX = 3; // horizontal speed
     int ballSpeedY = 2; // vertical speed
 
@@ -50,17 +51,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
         // g paints things
         super.paintComponent(g);
 
-        // set paddle color
-        g.setColor(Color.green);
-        // draw two rectangular paddles
-        g.fillRect(0, paddle1Y, paddleWidth, paddleHeight);
-        g.fillRect(getWidth()-paddleWidth, paddle2Y, paddleWidth, paddleHeight);
-        // draw ball
-        g.fillOval(ballX, ballY, ballSize, ballSize);
+        if (!gameover)
+        {
+            // set paddle color
+            g.setColor(Color.green);
+            // draw two rectangular paddles
+            g.fillRect(0, paddle1Y, paddleWidth, paddleHeight);
+            g.fillRect(getWidth()-paddleWidth, paddle2Y, paddleWidth, paddleHeight);
+            // draw ball
+            g.fillOval(ballX, ballY, ballSize, ballSize);
+        }
+        else
+        {
+            // gameover message
+            g.setColor(Color.red);
+            g.drawString("GAME OVER, SPACE TO CONTINUE", 320, 300);
+        }
     }
 
     // Move the ball
-    private void moveBall()
+    public void moveBall()
     {
         // Move ball by its speed
         ballX += ballSpeedX;
@@ -76,15 +86,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
         
         // Reset ball if it goes off left or right edges (temporary - will add scoring later)
         if (ballX <= 0 || ballX >= getWidth() - ballSize) 
+        {
             resetBall();
+            gameover = true;
+        }
         
     }
 
     // Reset ball to center
-    private void resetBall()
+    public void resetBall()
     {
-        ballX = getWidth() / 2 - ballSize / 2;
-        ballY = getHeight() / 2 - ballSize / 2;
+        ballX = 400 - ballSize / 2;
+        ballY = 300 - ballSize / 2;
         // Randomize direction a bit
         ballSpeedX = (Math.random() > 0.5) ? 3 : -3;
         ballSpeedY = (Math.random() > 0.5) ? 2 : -2;
@@ -118,18 +131,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
     @Override public void keyPressed(KeyEvent e) 
     {
         int k = e.getKeyCode();
-        if (k == KeyEvent.VK_W)
-            wpressed = true;  // Set flag instead of moving paddle
-        if (k == KeyEvent.VK_S)
-            spressed = true;
+        if (k == KeyEvent.VK_UP)
+            uPressed = true;  // Set flag instead of moving paddle
+        if (k == KeyEvent.VK_DOWN)
+            dPressed = true;
+        // gameover check
+        if (gameover == true)
+        {
+            if (k == KeyEvent.VK_SPACE)
+                gameover = false;
+        }
     }
     @Override public void keyReleased(KeyEvent e) 
     {
         int k = e.getKeyCode();
-        if (k == KeyEvent.VK_W)
-            wpressed = false;  // Clear flag when key is released
-        if (k == KeyEvent.VK_S)
-            spressed = false;
+        if (k == KeyEvent.VK_UP)
+            uPressed = false;  // Clear flag when key is released
+        if (k == KeyEvent.VK_DOWN)
+            dPressed = false;
     }
     @Override public void keyTyped(KeyEvent e) {}
 
@@ -137,9 +156,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
     public void moveLPaddle()
     {
         // Move Paddle
-        if (wpressed == true)
+        if (uPressed == true)
             paddle1Y -= paddle1Speed;
-        if (spressed == true)
+        if (dPressed == true)
             paddle1Y += paddle1Speed;
 
         // Keep Paddle Within Screen Bounds
@@ -152,9 +171,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
     // Game Loop, called by Timer
     @Override public void actionPerformed(ActionEvent e)
     {
-        moveBall();
-        moveRPaddle();
-        moveLPaddle();
+        if (gameover == false)
+        {
+            moveBall();
+            moveRPaddle();
+            moveLPaddle();
+        }
         repaint(); // redraw everything
         getToolkit().sync(); // Force the system to process the repaint immediately for smooth fps even when idle
     }
