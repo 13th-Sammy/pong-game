@@ -2,19 +2,25 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class GamePanel extends JPanel implements ActionListener
+public class GamePanel extends JPanel implements ActionListener, KeyListener
 {
     // Timer for game loop
     Timer timer;
     int DELAY = 10; //milliseconds between updates
+    boolean wpressed = false;
+    boolean spressed = false;
     
     public GamePanel()
     {
         setBackground(Color.black);
         setFocusable(true);
+        requestFocusInWindow();
+        addKeyListener(this);
 
         // Start the game timer
         timer = new Timer(DELAY, this);
@@ -24,7 +30,8 @@ public class GamePanel extends JPanel implements ActionListener
     // Creating Paddles
     int paddleWidth = 10;
     int paddleHeight = 100;
-    int paddleSpeed = 5;
+    int paddle1Speed = 5; 
+    int paddle2Speed = 5;
     // initial y position for paddle 1
     int paddle1Y = 250;
     // initial y position for paddle 2
@@ -48,6 +55,7 @@ public class GamePanel extends JPanel implements ActionListener
         // draw two rectangular paddles
         g.fillRect(0, paddle1Y, paddleWidth, paddleHeight);
         g.fillRect(getWidth()-paddleWidth, paddle2Y, paddleWidth, paddleHeight);
+        // draw ball
         g.fillOval(ballX, ballY, ballSize, ballSize);
     }
 
@@ -85,9 +93,41 @@ public class GamePanel extends JPanel implements ActionListener
     // Move Right Paddle Automatically
     private void moveRPaddle()
     {
-        paddle2Y += paddleSpeed;
+        paddle2Y += paddle2Speed;
         if (paddle2Y <= 0 || paddle2Y >= getHeight() - paddleHeight)
-            paddleSpeed = - paddleSpeed;
+            paddle2Speed = - paddle2Speed;
+    }
+
+    // Catch W and S press
+   @Override public void keyPressed(KeyEvent e) 
+    {
+        int k = e.getKeyCode();
+        if (k == KeyEvent.VK_W)
+            wpressed = true;  // Set flag instead of moving paddle
+        if (k == KeyEvent.VK_S)
+            spressed = true;
+    }
+    @Override public void keyReleased(KeyEvent e) 
+    {
+        int k = e.getKeyCode();
+        if (k == KeyEvent.VK_W)
+            wpressed = false;  // Clear flag when key is released
+        if (k == KeyEvent.VK_S)
+            spressed = false;
+    }
+    @Override public void keyTyped(KeyEvent e) {}
+
+    // Move Left Panel according to W and S press
+    public void moveLPaddle()
+    {
+        if (wpressed == true)
+            paddle1Y -= paddle1Speed;
+        if (spressed == true)
+            paddle1Y += paddle1Speed;
+        if (paddle1Y < 0) 
+            paddle1Y = 0;
+        if (paddle1Y > getHeight() - paddleHeight)
+            paddle1Y = getHeight() - paddleHeight;
     }
 
     // Game Loop, called by Timer
@@ -95,6 +135,8 @@ public class GamePanel extends JPanel implements ActionListener
     {
         moveBall();
         moveRPaddle();
+        moveLPaddle();
         repaint(); // redraw everything
+        getToolkit().sync(); // Force the system to process the repaint immediately for smooth fps even when idle
     }
 }
