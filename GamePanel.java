@@ -85,11 +85,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
             ballSpeedX = -ballSpeedX;
         
         // Reset ball if it goes off left or right edges (temporary - will add scoring later)
-        if (ballX <= 0 || ballX >= getWidth() - ballSize) 
+        if (ballX <= 0) 
         {
             resetBall();
             gameover = true;
         }
+        else if (ballX >= getWidth() - ballSize)
+            resetBall();
         
     }
 
